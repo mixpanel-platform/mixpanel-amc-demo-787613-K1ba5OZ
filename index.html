@@ -1,15 +1,226 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="https://cdn.mxpnl.com/libs/mixpanel-platform/css/reset.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.js"></script>
+
     <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script>
-  </head>
-  <body class="mixpanel-platform-body">
-    <h1>Hello, World!</h1>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+    
+    .first-section {
+      max-width: 100%;
+      display: block;
+    }
+    .second-section {
+      max-width: 100%;
+    }
+
+    .circle-div {
+        height: 350px;
+        display: inline-block;
+        width: 300px;
+    }
+
+    .app-launches {
+
+
+    }
+    .numberCircle {
+        border-radius: 50%;
+        width: 200px;
+
+        height: 200px;
+        padding: 8
+        background: #fff;
+        border: 2px solid #666;
+        color: #666;
+        text-align: cent
+        font: 48px Arial, sans-serif !important;
+        font-size: 48px !important;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 200px;
+    }
+    .text {
+
+        font: 72px;
+    }
+    .span-css {
+        background-color: white;
+        border: 1px solid #7a8195;
+        border-radius: 5px;
+        color: #7a8195;
+        display: block;
+        margin-bottom: 25px;
+        padding: 10px;
+        max-width: 60%;
+        margin-top: 5%;
+        text-align: center;
+    }
+
+    .graphs {
+        width: 80%;
+        height: 500px;
+        margin: 50px;
+    }
+    
+    .live-view {
+      width: 460px;
+      float: right;
+      
+    }
+    .session-data {
+      width:460px;
+      float:right;
+      margin-left: 170px;
+    }
+    
+    .panel-card {
+      box-shadow: 1px 0px 1px rgba(0, 0, 0, 0.25);
+      background-color: white;
+    }
+    .people-panel {
+      background-color: #00a0e9 !important;
+      color: #ffffff;
+    }
+    
+    .panel {
+      margin-bottom: 20px;
+      background-color: #fff;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+      box-shadow: 0 1px 1px rgba(0,0,0,.05);
+      
+      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+      font-size: 14px;
+      line-height: 1.42857143;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="first-section"> 
+        <div class="avg-monthly-visits circle-div">
+            <span class="span-css center-block"> Monthly Active Users</span>
+            <div class="numberCircle center-block"></div>
+        </div>
+        <div class="app-launches circle-div">
+            <span class="span-css center-block"> Total Episodes Watched</span>
+            <div class="numberCircle center-block"></div>
+        </div>
+        
+        <div class="avg-logins circle-div">
+            <span class="span-css center-block"> AVG Episodes Watched Per User</span>
+            <div class="numberCircle center-block"></div>
+        </div>
+    </div>
+      <div class="second-section">
+        
+        <div class="col-sm-12 col-md-4" style="width:380px; height: 300px; margin-left: 45px;">
+      		<div class="panel panel-card people-panel text-center">
+      			<div class="panel-title">
+      				<h5 class="no-margin m-b" style="font-size:15px;">Users Currently Streaming</h5>
+      			</div>
+      			<div class="panel-body">
+      				<div id="sensor-moni-text" style="height:250px;">
+      					<h1 class="dynamic-text" style="font-size:120px;">284</h1>
+      				</div>
+      			</div>
+      		</div>
+      	</div>
+      	<div class="col-sm-12 col-md-4" style="width:380px; height: 300px; margin-left: 50px;">
+      		<div class="panel panel-card people-panel text-center">
+      			<div class="panel-title">
+      				<h5 class="no-margin m-b" style="font-size:15px;"> Current Subscribers</h5>
+      			</div>
+      			<div class="panel-body">
+      				<div id="sensor-moni-text" style="height:250px;">
+      					<h1 class="" style="font-size:120px;">19803</h1>
+      				</div>
+      			</div>
+      		</div>
+      	</div>
+      	<script>
+      	  // setInterval(function(){ alert("Hello"); }, 3000);
+      	  $(document).ready(function(){
+        	  function number(){
+        	    var number = Math.floor(Math.random(100)*10000);
+        	    return number;
+        	  }
+        	  
+        	  setInterval(
+        	    function() {
+        	      var num = number()
+        	      $('.dynamic-text').text(num.toString());
+        	    },2500)
+      	  });
+      	</script>
+        
+        <div class="second"></div>  
+      
+    </div>
+    
+    
+
+    <br clear="all" />
     <script>
-      // Run queries and display results here
+        /* Average Monthly Visits per User */
+        var avgMonthlyVisits = MP.api.query('/api/2.0/segmentation/', {
+            from: moment().subtract(1, 'months'),
+            to: moment(),
+            event: 'Episode Viewed',
+            unit: 'month',
+            type: 'average'
+            }, {dataType:'json'}
+        ).done(function(data){
+            var finalMonth = data['data']["values"]["Episode Viewed"]
+            var key = _.keys(finalMonth)[0]
+
+            var finalMonthData = Math.round(finalMonth[key], 2)
+
+            var circle = $('.avg-logins > .numberCircle')
+            circle.text(finalMonthData.toString())
+
+        });
+
+        var totalsQuery = MP.api.events('Viewed Video Page', {
+            unit: 'month',
+            type: 'unique'
+        }).done(function(data){
+            var key = _.keys(data.values())[0]
+            var launchData = data.values()[key]
+
+            /* Find the final Month*/
+            var finalMonth = _.sortBy(_.keys(launchData))[_.keys(launchData).length -1]
+
+            var finalMonthData = launchData[finalMonth]
+
+            var circle = $('.avg-monthly-visits > .numberCircle')
+            circle.text(finalMonthData.toString())
+
+        });
+
+        /* AVG Logins per user */
+
+        var avgLogins = MP.api.query('/api/2.0/segmentation/', {
+            from: moment().subtract(1, 'months'),
+            to: moment(),
+            event: 'Episode Viewed',
+            unit: 'month',
+            type: 'general'
+            }, {dataType:'json'}
+        ).done(function(data){
+            var finalMonth = data['data']["values"]["Episode Viewed"]
+            var key = _.keys(finalMonth)[0]
+            var finalMonthData = Math.round(finalMonth[key], 2)
+
+            var circle = $('.app-launches > .numberCircle')
+            circle.text(finalMonthData.toString());
+        });
+        
+        /* Average LTV per subscription */
     </script>
-  </body>
-</html>
