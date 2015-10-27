@@ -214,7 +214,7 @@
             type: 'general'
             }, {dataType:'json'}
         ).done(function(data){
-            var finalMonth = data['data']["values"]["Viewed Video Page "]
+            var finalMonth = data['data']["values"]["Viewed Video Page"]
             var key = _.keys(finalMonth)[0]
             var finalMonthData = Math.round(finalMonth[key], 2)
 
