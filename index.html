@@ -16,6 +16,14 @@
     }
     .second-section {
       max-width: 100%;
+      margin-top: 20px;
+    }
+    
+    .third-section {
+      width: 100%;
+      padding-left: 10%;
+      padding-right: 10%;
+      margin-bottom: 30px;
     }
 
     .circle-div {
@@ -99,6 +107,47 @@
       font-size: 14px;
       line-height: 1.42857143;
     }
+    @import url(http://weloveiconfonts.com/api/?family=fontawesome);
+    @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300);
+
+    /* fontawesome */
+    [class*="fontawesome-"]:before {
+      font-family: 'FontAwesome', sans-serif;
+    }
+    .left {
+      float: left;
+    }
+    .clear {
+    clear: both;
+    }
+    
+    .buysblock {
+      background: rgb(38,168,226);
+    }
+    .commentsblock {
+      background: rgb(39,183,121);
+    }
+    
+    .metroblock {
+      width: 21em;
+      padding: 0em 1em 1em 1em;
+      color: #fff;
+      font-family: 'Open Sans', sans-serif;
+      margin: 1em;
+    }
+    
+    .metroblock h1, .metroblock h2, .metroblock .icon {
+      font-weight: 300;
+      margin: 0;
+      padding: 0;
+    }
+    .metroblock h1, .metroblock .icon {
+      font-size: 7em;
+      text-align: center;
+    }
+    .metroblock .icon {
+      margin-right: .2em;
+    }
     </style>
 </head>
 
@@ -117,6 +166,20 @@
             <span class="span-css center-block"> AVG Episodes Watched Per User</span>
             <div class="numberCircle center-block"></div>
         </div>
+    </div>
+    <div class="third-section">
+      <div class="metroblock commentsblock left ">
+            <span class="icon fontawesome-comments left"></span>
+            <h1>13002</h1>
+            <div class="clear"></div>
+            <h2 style="text-align:center">Monthly Shares</h2>
+      </div>
+      <div class="metroblock buysblock left ">
+        <span class="icon fontawesome-briefcase left"></span>
+        <h1>2143</h1>
+        <div class="clear"></div>
+        <h2 style="text-align:center">Net New Users</h2>
+      </div>
     </div>
       <div class="second-section">
         
@@ -144,6 +207,7 @@
       			</div>
       		</div>
       	</div>
+      	
       	<script>
       	  // setInterval(function(){ alert("Hello"); }, 3000);
       	  $(document).ready(function(){
