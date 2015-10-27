@@ -187,7 +187,7 @@
 
         });
 
-        var totalsQuery = MP.api.events('Viewed Video Page', {
+        var totalsQuery = MP.api.events('Episode Viewed', {
             unit: 'month',
             type: 'unique'
         }).done(function(data){
@@ -209,12 +209,12 @@
         var avgLogins = MP.api.query('/api/2.0/segmentation/', {
             from: moment().subtract(1, 'months'),
             to: moment(),
-            event: 'Episode Viewed',
+            event: 'Viewed Video Page',
             unit: 'month',
             type: 'general'
             }, {dataType:'json'}
         ).done(function(data){
-            var finalMonth = data['data']["values"]["Episode Viewed"]
+            var finalMonth = data['data']["values"]["Viewed Video Page "]
             var key = _.keys(finalMonth)[0]
             var finalMonthData = Math.round(finalMonth[key], 2)
 
